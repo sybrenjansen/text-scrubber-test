@@ -31,7 +31,7 @@ jobs:
           target = m.group(1)
         else:
           target = ''
-        print(f'target={target})" >> $GITHUB_OUTPUT
+        print(f'target={target}')" >> $GITHUB_OUTPUT
         echo $GITHUB_OUTPUT
     - name: Build documentation
       run: |
