@@ -1,10 +1,7 @@
+:tocdepth: 4
+
 API reference
 =============
-
-.. contents:: Contents
-    :depth: 1
-    :local:
-
 
 TextScrubber
 ------------

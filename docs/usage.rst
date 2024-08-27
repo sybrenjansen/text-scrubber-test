@@ -1,10 +1,6 @@
 Basic usage
 ===========
 
-.. contents:: Contents
-    :depth: 2
-    :local:
-
 TextScrubber
 ------------
 
