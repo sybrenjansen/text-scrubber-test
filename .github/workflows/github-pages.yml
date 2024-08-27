@@ -32,7 +32,6 @@ jobs:
         else:
           target = ''
         print(f'target={target}')" >> $GITHUB_OUTPUT
-        echo $GITHUB_OUTPUT
     - name: Build documentation
       run: |
         sphinx-build -M html ./docs/ ./docs/_build/html
@@ -57,26 +56,24 @@ jobs:
       with:
         python-version: '3.10'
     - name: Write versions to JSON file
-      uses: jannekem/run-python-script-action@v1
-      with:
-        script: |
-          import subprocess
-          import json
-
-          process = subprocess.run(["git", "tag", "-l"], capture_output=True)
-          tags = sorted(process.stdout.decode().split())
-          version_info = [{"version": tag, "title": tag, "aliases": []} for tag in tags]
-          version_info[-1]["aliases"].append("stable")
-          version_info.append({"version": "master", "title": "master", "aliases": ["latest"]})
-          
-          with open('./versions.json', 'w') as f:
-              json.dump(version_info, f)
+      id: version-info
+      run: |
+        mkdir ./version_info
+        touch ./version_info/versions.json
+        python -c "
+        import json, subprocess
+        process = subprocess.run(["git", "tag", "-l"], capture_output=True)
+        tags = sorted(process.stdout.decode().split())
+        version_info = [{"version": tag, "title": tag, "aliases": []} for tag in tags]
+        version_info[-1]["aliases"].append("stable")
+        version_info.append({"version": "master", "title": "master", "aliases": ["latest"]})
+        print(json.dumps(version_info))" >> ./version_info/versions.json
     - name: Publish versions JSON to GitHub pages
       uses: peaceiris/actions-gh-pages@v4
       with:
         deploy_key: ${{ secrets.DEPLOY_GITHUB_PAGES_KEY }}
         external_repository: sybrenjansen/sybrenjansen.github.io
         publish_branch: main
-        publish_dir: ./
+        publish_dir: ./version_info/
         destination_dir: text-scrubber-test/
         keep_files: true
