@@ -64,7 +64,7 @@ jobs:
         python -c "
         import json, subprocess
         process = subprocess.run(['git', 'tag', '-l'], capture_output=True)
-        tags = sorted(process.stdout.decode().split())
+        tags = sorted(process.stdout.decode().split(), reverse=True)
         version_info = [{'version': tag, 'title': tag, 'aliases': []} for tag in tags]
         version_info[-1]['aliases'].append('stable')
         version_info.append({'version': 'master', 'title': 'master', 'aliases': ['latest']})
