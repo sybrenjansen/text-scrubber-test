@@ -34,7 +34,7 @@ jobs:
         print(f'target={target}')" >> $GITHUB_OUTPUT
     - name: Build documentation
       run: |
-        sphinx-build -M html ./docs/ ./docs/_build/html
+        sphinx-build -M html ./docs/ ./docs/_build/
     - name: Publish documentation to Github
       if: steps.docs-publish-dir.outputs.target != ''
       uses: peaceiris/actions-gh-pages@v4
