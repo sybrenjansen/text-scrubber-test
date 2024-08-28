@@ -62,11 +62,11 @@ jobs:
         touch ./version_info/versions.json
         python -c "
         import json, subprocess
-        process = subprocess.run(["git", "tag", "-l"], capture_output=True)
+        process = subprocess.run(['git', 'tag', '-l'], capture_output=True)
         tags = sorted(process.stdout.decode().split())
-        version_info = [{"version": tag, "title": tag, "aliases": []} for tag in tags]
-        version_info[-1]["aliases"].append("stable")
-        version_info.append({"version": "master", "title": "master", "aliases": ["latest"]})
+        version_info = [{'version': tag, 'title': tag, 'aliases': []} for tag in tags]
+        version_info[-1]['aliases'].append('stable')
+        version_info.append({'version': 'master', 'title': 'master', 'aliases': ['latest']})
         print(json.dumps(version_info))" >> ./version_info/versions.json
     - name: Publish versions JSON to GitHub pages
       uses: peaceiris/actions-gh-pages@v4
